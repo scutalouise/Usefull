@@ -1,0 +1,6 @@
+不能双击运行jar文件的解决办法：
+打开注册表，找到HKEY_CLASSES_ROOT\Applications\javaw.exe\shell\open\command，然后编辑其默认键值，
+改为"C:\Program Files (x86)\Java\jdk1.6.0_30\bin\javaw.exe" -jar "%1"
+注意：
+1. 红色字体部分需要根据你自己电脑上Java的安装路径做相应修改。
+2. 键值中，-jar 的前后各有一个空格。

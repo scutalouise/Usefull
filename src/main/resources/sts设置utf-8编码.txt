@@ -1,0 +1,7 @@
+一、MyEclipse
+Windows-->Preferences-->myeclipse Enterprise Workbench-->File and Editors-->JSP-->把这个目录下的Encoding选为你要设置的编码(如UTF-8、Chinese,National Standard等编码方式) 
+
+二、springtool suite(sts)
+1、windows--perferences--general--workspace，Text file encoding设置成utf-8
+2、windows--perferences--general--content types，把里面text的default encoding整个无脑update成utf-8
+3、windows--perferences--web--jsp files，把这里的encoding设置成utf-8
