@@ -1,0 +1,27 @@
+1 准备OS账户
+
+安全起见，本着最小权限原则，生产系统决不允许使用root账户来运行tomcat。为此，建立新账户tomcat，并设定登录密码。
+useradd tomcat
+passwd tomcat
+
+2 配置防火墙放行8080端口并做80端口映射
+
+在/etc/firewalld/services/目录下新建一个名为tomcat.xml的文件，内容如下：
+<?xml version="1.0" encoding="utf-8"?>
+<service>
+  <short>Tomcat Webserver</short>
+  <description>HTTPS is a modified HTTP used to serve Web pages when security is important. Examples are sites that require logins like stores or web mail. This option is not required for viewing pages locally or developing Web pages. You need the httpd package installed for this option to be useful.</description>
+  <port protocol="tcp" port="8080"/>
+</service>
+
+然后把此服务加入防火墙规则中
+firewall-cmd --reload
+firewall-cmd --add-service=tomcat
+firewall-cmd --permanent --add-service=tomcat
+
+由于非root用户不能侦听1023以下端口，所以这里采用一个变通的方法，就是利用firewalld在数据包路由之前进行端口转发，把所有发往80的tcp包转发到8080即可。
+firewall-cmd --add-forward-port=port=80:proto=tcp:toport=8080
+firewall-cmd --permanent --add-forward-port=port=80:proto=tcp:toport=8080
+
+此后tomcat就相当于同时侦听80和8080两个端口了。
+此后的步骤均是在tomcat账户环境下进行。
